@@ -8,7 +8,7 @@ from forever_running import forever_running
 
 client = discord.Client()
 
-sad_words = ["sad", "depressed", "unhappy", "angry", "miserable", "depressing"]
+sad_words = ["happy", "depressed", "unhappy", "angry", "miserable", "depressing"]
 
 starter_encouragements = [
   "Cheer up!",
@@ -57,10 +57,11 @@ async def on_message(message):
   if db["responding"]:
     options = starter_encouragements
     if "encouragements" in db.keys():
-      options = options + db["encouragements"]
-
+      options = options.extend(db["encouragements"])
+    
     if any(word in msg for word in sad_words):
-      await message.channel.send(random.choice(options))
+      tmp = random.choice(options)
+      await message.channel.send(tmp)
 
   if msg.startswith("$new"):
     encouraging_message = msg.split("$new ",1)[1]
